@@ -178,11 +178,14 @@ addEventListener('keydown', e => {
     }
 })
 
-addEventListener('touchenter', e => {
-    if(e.x < 250 && e.y < 400){
+addEventListener('touchstart', e => {
+    var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
+    startx = parseInt(touchobj.clientX) // get x position of touch point relative to left edge of browser
+    starty = parseInt(touchobj.clientY)
+    if(startx < 250 && starty < 400){
         is_left();
     }
-    if(e.x > 250 && e.y < 400){
+    if(startx > 250 && starty < 400){
         is_right();
     }
 })
