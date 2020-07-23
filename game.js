@@ -73,7 +73,7 @@ function gameLoop() {
         first_draw = false;
 
         pick_color();
-        writeMessage(current_message, 'black', cw * 0.5);
+        writeMessage(current_message, 'black', cw * 0.5, ch *0.4, fontsize = 'bold 20pt');
         writeMessage('(Press Left or Right)', 'black', cw * 0.5, y = ch * 0.45, '16pt')
 
     }
@@ -89,7 +89,7 @@ function gameLoop() {
 display_highscore = () => {
     cx.clearRect(cw * 0.66, 5, cw * 0.33, ch * 0.04);
     cx.strokeRect(cw * 0.66, 5, cw * 0.33, ch * 0.04);
-    writeMessage('Highest Score:    ' + highest_score, 'black', cw * 0.8, 20, '12pt')
+    writeMessage('Highest Score:    ' + highest_score, 'black', cw * 0.8, 20, 'bold 12pt')
 }
 
 writeMessage = (message, col = 'black', x = cw * 0.49, y = ch * 0.4, fontsize = '20pt', fontfam = 'Calibri') => {
@@ -198,7 +198,7 @@ function draw_timer() {
     cx.fillStyle = 'lime';
     cx.fillRect(5, 5, 300 * (time_left / timer_max), 20);
     cx.strokeRect(5, 5, 300, 20);
-    writeMessage('timer', 'grey', 150, 20, '12pt');
+    writeMessage('timer', 'grey', 150, 20, 'bold 12pt');
     if (time_left <= 0) {
         first_draw = true;
     }
@@ -210,15 +210,15 @@ function draw_buttons() {
     cx.fillRect(260, 410, 250, 90)
     cx.fillStyle = 'black'
     cx.fillRect(0, 410, 240, 90)
-    writeMessage('left', 'white', 115, 460)
-    writeMessage('right', 'white', 380, 460)
+    writeMessage('left', 'white', 115, 460, 'bold 20pt')
+    writeMessage('right', 'white', 380, 460, 'bold 20pt')
 }
 
 function before_changing_color() {
     new_pick = true;
     draw_buttons();
     pick_color();
-    if (number_completed > -1) writeMessage(number_completed, 'black', cw * 0.5, ch * 0.52, '130pt');
+    if (number_completed > -1) writeMessage(number_completed, 'black', cw * 0.495, ch * 0.5, '90pt');
     else writeMessage(current_message)
 
 }
