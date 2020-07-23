@@ -177,21 +177,22 @@ addEventListener('keydown', e => {
 
     }
 })
-/*
-canvas.addEventListener('touchstart', e => {
+
+canvas.addEventListener('touchend', e => {
     let rect = canvas.getBoundingClientRect();
     startx = e.targetTouches[0].pageX - rect.left;
     starty = e.targetTouches[0].pageY - rect.top;
     touched_button(startx,starty);
 })
-*/
-canvas.addEventListener('mouseup', e => {
+
+/*
+canvas.addEventListener('mousedown', e => {
     let rect = canvas.getBoundingClientRect();
     startx = e.clientX - rect.left;
     starty = e.clientY - rect.top;
     touched_button(startx,starty);
 })
-
+*/
 function touched_button(startx,starty){
     if(startx < 250 && starty > 400){
         is_left();
