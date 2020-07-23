@@ -178,7 +178,7 @@ addEventListener('keydown', e => {
     }
 })
 
-addEventListener('touchstart', e => {
+canvas.addEventListener('touchstart', e => {
     var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
     startx = parseInt(touchobj.clientX) // get x position of touch point relative to left edge of browser
     starty = parseInt(touchobj.clientY)
