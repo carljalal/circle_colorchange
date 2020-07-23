@@ -92,10 +92,10 @@ display_highscore = () => {
     writeMessage('Highest Score:    ' + highest_score, 'black', cw * 0.8, 20, '12pt')
 }
 
-writeMessage = (message, col = 'black', x = cw * 0.49, y = ch * 0.4, fontsize = '20pt') => {
+writeMessage = (message, col = 'black', x = cw * 0.49, y = ch * 0.4, fontsize = '20pt', fontfam = 'Calibri') => {
     //let context = canvas.getContext('2d');
     //context.clearRect(0, 0, canvas.width, canvas.height);
-    cx.font = fontsize + ' Calibri';
+    cx.font = fontsize + " " + fontfam;
     cx.textAlign = 'center'
     cx.fillStyle = col;
     cx.fillText(message, x, y);
@@ -218,7 +218,7 @@ function before_changing_color() {
     new_pick = true;
     draw_buttons();
     pick_color();
-    if (number_completed > -1) writeMessage(number_completed, 'black', cw * 0.5, ch * 0.49, '90pt');
+    if (number_completed > -1) writeMessage(number_completed, 'black', cw * 0.5, ch * 0.52, '130pt');
     else writeMessage(current_message)
 
 }
