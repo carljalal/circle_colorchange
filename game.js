@@ -185,7 +185,7 @@ canvas.addEventListener('touchstart', e => {
     touched_button(startx,starty);
 })
 */
-canvas.addEventListener('mousedown', e => {
+canvas.addEventListener('mouseup', e => {
     let rect = canvas.getBoundingClientRect();
     startx = e.clientX - rect.left;
     starty = e.clientY - rect.top;
