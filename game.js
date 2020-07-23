@@ -178,7 +178,7 @@ addEventListener('keydown', e => {
     }
 })
 
-canvas.addEventListener('touchend', e => {
+canvas.addEventListener('touchdown', e => {
     let rect = canvas.getBoundingClientRect();
     startx = e.targetTouches[0].pageX - rect.left;
     starty = e.targetTouches[0].pageY - rect.top;
