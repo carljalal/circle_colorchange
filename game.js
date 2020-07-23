@@ -177,14 +177,14 @@ addEventListener('keydown', e => {
 
     }
 })
-
+/*
 canvas.addEventListener('touchstart', e => {
     let rect = canvas.getBoundingClientRect();
     startx = e.targetTouches[0].pageX - rect.left;
     starty = e.targetTouches[0].pageY - rect.top;
     touched_button(startx,starty);
 })
-
+*/
 canvas.addEventListener('mousedown', e => {
     let rect = canvas.getBoundingClientRect();
     startx = e.clientX - rect.left;
