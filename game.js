@@ -32,16 +32,11 @@ canvas.addEventListener('mousemove', function(evt) {
 */
 
 
-function writeMessage(canvas, message) {
-    let context = canvas
-    //let context = canvas.getContext('2d');
-    //context.clearRect(0, 0, canvas.width, canvas.height);
-    context.font = '12pt Calibri';
-    context.fillStyle = 'black';
-    context.fillText(message, 10, 25);
-}
 
 
+function random_int(min,max) {
+    return min + Math.floor(Math.random() * Math.floor(max+1));
+  }
 
 
 let vendors = ['webkit', 'moz'];
@@ -65,32 +60,109 @@ let canvas = document.getElementById('canvas'),
 
 cx = canvas.getContext('2d');
 
+
+function a_circle(x,y,radius,color){
+    cx.beginPath();
+    cx.fillStyle = color;
+    cx.arc(cw*x, ch*y, cw * radius, ch * radius, 360 * Math.PI );
+    cx.fill();
+}
+
+first_draw = true
+new_pick = true;
+current_message = 'START';
+color_pick = 0;
+last_color_pick = 0;
+number_completed = 0;
+
+function pick_color(){
+    if(new_pick == true){
+            
+        last_color_pick = color_pick;
+        color_pick = random_int(1,10); // first chance of being different must be half of reciprocal it will be naturally different
+        if(color_pick <= 6) {
+            color_pick = random_int(0,5);
+        }
+        else color_pick = last_color_pick;
+        new_pick = false;
+    }
+    if(color_pick == 0) this.color = 'lime';
+    else if(color_pick == 1) this.color = 'pink';
+    else if(color_pick == 2) this.color = 'red';
+    else if(color_pick == 3) this.color = 'pink';
+    else if(color_pick == 4) this.color = 'orange';
+    else if(color_pick == 5) this.color = 'purple';    
+    a_circle(0.5,0.5, 0.3, color);
+    //writeMessage()
+}
+
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
+    
+
+    if(first_draw == true){
+        cx.clearRect(0, 0, cw, cw);
+        color_pick = 0;
+        last_color_pick = 0;
+        current_message = 'START'
+        first_draw = false;
+        
+        pick_color();
+        writeMessage(current_message);
+    }
 
     currentTime = Date.now()
     delta = (currentTime - lastTime) / 1000;
-    cx.clearRect(0, 0, cw, cw);
-
-    cx.beginPath();
-    cx.fillStyle = 'teal';
-    cx.arc(bX, bY, 40, 0, 2 * Math.PI );
-    cx.fill();
-    if (bX >= cw || bX <= 0) {
-        mX *= -1;
-    }
-    if (bY >= ch || bY <= 0) {
-        mY *= -1;
-    }
-
-    bX += (mX * delta);
-    bY += (mY * delta);
-
     lastTime = currentTime;
-
-    writeMessage(cx, Number(1/delta).toFixed(0))
+    //this.writeMessage(cx, Number(1/delta).toFixed(0))
+    
 }
 
+writeMessage = function(message) {
+    //let context = canvas.getContext('2d');
+    //context.clearRect(0, 0, canvas.width, canvas.height);
+    cx.font = '20pt Calibri';
+    cx.fillStyle = 'black';
+    cx.fillText(message, cw*0.45, ch*0.5);
+}
+
+addEventListener('keydown', e => {
+    if(e.keyCode == 37){ // left
+        if (last_color_pick != color_pick) {
+            current_message = 'CORRECT';
+            number_completed++;
+        }
+        else {
+            current_message = 'WRONG';
+            number_completed = 0;
+        }
+        cx.clearRect(0, 0, cw, cw);
+        pick_color();
+        writeMessage(number_completed);
+        new_pick = true;
+        
+    }
+    else if(e.keyCode == 38){ //up
+
+    }
+    else if(e.keyCode == 39){ // right
+        if (last_color_pick == color_pick) {
+            current_message = 'CORRECT';
+            number_completed++;
+        }
+        else {
+            current_message = 'WRONG'
+            number_completed = 0;
+        }
+        cx.clearRect(0, 0, cw, cw);
+        pick_color();
+        writeMessage(number_completed);
+        new_pick = true;
+    }
+    else if(e.keyCode == 40){ // down
+
+    }
+})
 
 gameLoop()
 
