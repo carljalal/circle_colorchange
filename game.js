@@ -26,12 +26,16 @@ function a_circle(x, y, radius, color) {
     cx.fill();
 }
 
-first_draw = true
+first_draw = true;
 new_pick = true;
-current_message = 'START';
+const startmessage = 'START'
+let current_message = startmessage;
 color_pick = 0;
 last_color_pick = 0;
-number_completed = -1;
+let number_completed = -1;
+const timer_max = 2000
+time_left = timer_max;
+
 
 function pick_color() {
     if (new_pick == true) {
@@ -56,45 +60,60 @@ function pick_color() {
 
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
-
+    
 
     if (first_draw == true) {
-        
+        number_completed = -1;
+        time_left = timer_max;
         cx.clearRect(0, 0, cw, cw);
         draw_buttons();
         color_pick = 0;
         last_color_pick = 0;
-        current_message = 'START'
+        current_message = startmessage;
         first_draw = false;
 
         pick_color();
-        writeMessage(current_message);
+        writeMessage(current_message, 'black', cw*0.5);
+        writeMessage('(Press Left or Right)','black', cw *0.5, y = ch*0.45, '16pt' )
     }
 
     currentTime = Date.now()
-    delta = (currentTime - lastTime) / 1000;
+    delta = (currentTime - lastTime);
     lastTime = currentTime;
+    draw_timer();
     //this.writeMessage(cx, Number(1/delta).toFixed(0))
 
 }
 
-writeMessage = function (message, col = 'black', x = cw*0.45, y = ch*0.4) {
+writeMessage = (message, col = 'black', x = cw*0.49, y = ch*0.4, fontsize='20pt') => {
     //let context = canvas.getContext('2d');
     //context.clearRect(0, 0, canvas.width, canvas.height);
-    cx.font = '20pt Calibri';
+    cx.font = fontsize + ' Calibri';
+    cx.textAlign = 'center'
     cx.fillStyle = col;
     cx.fillText(message, x, y);
+}
+
+function is_correct(){
+    number_completed++;
+    if(number_completed < timer_max * 0.2){
+        time_left = time_left + timer_max - number_completed;
+    }
+    else {
+        time_left = time_left + timer_max * 0.2;
+    }
+    if(time_left > timer_max) time_left = timer_max;
 }
 
 function is_left(){
     if (number_completed > -1) {
         if (last_color_pick != color_pick) {
             current_message = 'CORRECT';
-            number_completed++;
+            is_correct();
         }
         else {
-            current_message = 'START';
-            number_completed = -1;
+            current_message = startmessage;
+            first_draw = true;
         }
     }
     else {
@@ -107,11 +126,11 @@ function is_right(){
     if (number_completed > -1) {
         if (last_color_pick == color_pick) {
             current_message = 'CORRECT';
-            number_completed++;
+            is_correct();
         }
         else {
-            current_message = 'START'
-            number_completed = -1;
+            current_message = startmessage;
+            first_draw = true;
         }
 
     }
@@ -160,6 +179,20 @@ function touched_button(startx,starty){
     }
 }
 
+function draw_timer(){
+    if(number_completed > -1){
+        time_left = time_left - delta;
+        cx.clearRect(5,5,200,20);
+        cx.fillStyle = 'lime';
+        cx.fillRect(5,5,200*(time_left/timer_max),20);
+        cx.strokeRect(5,5,200,20);
+        writeMessage('timer','grey',80,20,'15pt');
+        if(time_left <= 0) {
+            first_draw = true;
+        }
+    }
+}
+
 function draw_buttons(){
     cx.clearRect(0, 0, cw, cw);
     cx.fillStyle = 'black'
@@ -171,11 +204,12 @@ function draw_buttons(){
 }
 
 function before_changing_color() {
+    new_pick = true;
     draw_buttons();
     pick_color();
     if (number_completed > -1) writeMessage(number_completed);
     else writeMessage(current_message)
-    new_pick = true;
+    
 }
 
 gameLoop()
