@@ -101,7 +101,9 @@ function gameLoop() {
 
 
     if (first_draw == true) {
+        
         cx.clearRect(0, 0, cw, cw);
+        draw_buttons();
         color_pick = 0;
         last_color_pick = 0;
         current_message = 'START'
@@ -118,58 +120,85 @@ function gameLoop() {
 
 }
 
-writeMessage = function (message) {
+writeMessage = function (message, col = 'black', x = cw*0.45, y = ch*0.5) {
     //let context = canvas.getContext('2d');
     //context.clearRect(0, 0, canvas.width, canvas.height);
     cx.font = '20pt Calibri';
-    cx.fillStyle = 'black';
-    cx.fillText(message, cw * 0.45, ch * 0.5);
+    cx.fillStyle = col;
+    cx.fillText(message, x, y);
+}
+
+function is_left(){
+    if (number_completed > -1) {
+        if (last_color_pick != color_pick) {
+            current_message = 'CORRECT';
+            number_completed++;
+        }
+        else {
+            current_message = 'START';
+            number_completed = -1;
+        }
+    }
+    else {
+        number_completed = 0;
+    }
+    before_changing_color();
+}
+
+function is_right(){
+    if (number_completed > -1) {
+        if (last_color_pick == color_pick) {
+            current_message = 'CORRECT';
+            number_completed++;
+        }
+        else {
+            current_message = 'START'
+            number_completed = -1;
+        }
+
+    }
+    else {
+        number_completed = 0;
+    }
+    before_changing_color();
 }
 
 addEventListener('keydown', e => {
     if (e.keyCode == 37) { // left
-        if (number_completed > -1) {
-            if (last_color_pick != color_pick) {
-                current_message = 'CORRECT';
-                number_completed++;
-            }
-            else {
-                current_message = 'START';
-                number_completed = -1;
-            }
-        }
-        else {
-            number_completed = 0;
-        }
-        before_changing_color();
+        is_left();
     }
     else if (e.keyCode == 38) { //up
 
     }
     else if (e.keyCode == 39) { // right
-        if (number_completed > -1) {
-            if (last_color_pick == color_pick) {
-                current_message = 'CORRECT';
-                number_completed++;
-            }
-            else {
-                current_message = 'START'
-                number_completed = -1;
-            }
-
-        }
-        else {
-            number_completed = 0;
-        }
-        before_changing_color();
+        is_right();
     }
     else if (e.keyCode == 40) { // down
 
     }
 })
 
-function before_changing_color() {
+addEventListener('touchenter', e => {
+    if(e.x < 250 && e.y < 400){
+        is_left();
+    }
+    if(e.x > 250 && e.y < 400){
+        is_right();
+    }
+})
+
+function draw_buttons(){
     cx.clearRect(0, 0, cw, cw);
+    cx.fillStyle = 'black'
+    cx.fillRect(260,410,250,90)
+    cx.fillStyle = 'black'
+    cx.fillRect(0,410,240,90)
+    writeMessage('left','white',100,450)
+    writeMessage('right','white',330,450)
+}
+
+function before_changing_color() {
+    draw_buttons();
     pick_color();
     if (number_completed > -1) writeMessage(number_completed);
     else writeMessage(current_message)
