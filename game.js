@@ -1,39 +1,3 @@
-/*
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-
-ctx.fillStyle = 'grey';
-ctx.fillRect(50, 200, 150, 150);
-
-
-function writeMessage(canvas, message) {
-    var context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.font = '10pt Calibri';
-    context.fillStyle = 'black';
-    context.fillText(message, 10, 25);
-}
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    };
-}
-
-//var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-
-canvas.addEventListener('mousemove', function(evt) {
-    var mousePos = getMousePos(canvas, evt);
-    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-    writeMessage(canvas, message);
-}, false);
-*/
-
-
-
-
 function random_int(min, max) {
     return min + Math.floor(Math.random() * Math.floor(max + 1));
 }
@@ -48,12 +12,6 @@ for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
 let canvas = document.getElementById('canvas'),
     cw = canvas.width,
     ch = canvas.height,
-    cx = null,
-    fps = 30,
-    bX = 30,
-    bY = 30,
-    mX = 150,
-    mY = 300,
     lastTime = Date.now(),
     currentTime = 0,
     delta = 0;
@@ -92,7 +50,7 @@ function pick_color() {
     else if (color_pick == 3) this.color = 'teal';
     else if (color_pick == 4) this.color = 'orange';
     else if (color_pick == 5) this.color = 'purple';
-    a_circle(0.5, 0.5, 0.3, color);
+    a_circle(0.5, 0.4, 0.35, color);
     //writeMessage()
 }
 
@@ -120,7 +78,7 @@ function gameLoop() {
 
 }
 
-writeMessage = function (message, col = 'black', x = cw*0.45, y = ch*0.5) {
+writeMessage = function (message, col = 'black', x = cw*0.45, y = ch*0.4) {
     //let context = canvas.getContext('2d');
     //context.clearRect(0, 0, canvas.width, canvas.height);
     cx.font = '20pt Calibri';
