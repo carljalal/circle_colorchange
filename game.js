@@ -218,7 +218,7 @@ function before_changing_color() {
     new_pick = true;
     draw_buttons();
     pick_color();
-    if (number_completed > -1) writeMessage(number_completed, 'black', cw * 0.49, ch * 0.43);
+    if (number_completed > -1) writeMessage(number_completed, 'black', cw * 0.5, ch * 0.44);
     else writeMessage(current_message)
 
 }
