@@ -179,16 +179,27 @@ addEventListener('keydown', e => {
 })
 
 canvas.addEventListener('touchstart', e => {
-    var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
-    startx = parseInt(touchobj.clientX) // get x position of touch point relative to left edge of browser
-    starty = parseInt(touchobj.clientY)
-    if(startx < 250 && starty < 400){
+    let rect = canvas.getBoundingClientRect();
+    startx = e.targetTouches[0].pageX - rect.left;
+    starty = e.targetTouches[0].pageY - rect.top;
+    touched_button(startx,starty);
+})
+
+canvas.addEventListener('mousedown', e => {
+    let rect = canvas.getBoundingClientRect();
+    startx = e.clientX - rect.left;
+    starty = e.clientY - rect.top;
+    touched_button(startx,starty);
+})
+
+function touched_button(startx,starty){
+    if(startx < 250 && starty > 400){
         is_left();
     }
-    if(startx > 250 && starty < 400){
+    if(startx > 250 && starty > 400){
         is_right();
     }
-})
+}
 
 function draw_buttons(){
     cx.clearRect(0, 0, cw, cw);
